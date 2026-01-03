@@ -3,7 +3,7 @@ import { MoodProvider } from "@/components/providers/mood-provider";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Flow — Work that feels good",
+  title: "Motive — Work that feels good",
   description: "A project management app that makes work feel like play",
 };
 
