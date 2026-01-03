@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Sparkles } from "lucide-react";
+import { Plus, Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui";
 import { Greeting } from "@/components/patterns/greeting";
 import { WeeklyProgress } from "@/components/patterns/weekly-progress";
@@ -18,12 +18,30 @@ import {
 
 export default function StreamPage() {
   const [tasks, setTasks] = useState<MockTask[]>(getTasksForToday());
+  const [isAdding, setIsAdding] = useState(false);
+  const [newTaskTitle, setNewTaskTitle] = useState("");
   const stats = getWeeklyStats();
 
   const handleCompleteTask = (taskId: string) => {
     setTasks((prev) =>
       prev.map((t) => (t.id === taskId ? { ...t, status: "done" as const } : t))
     );
+  };
+
+  const handleAddTask = () => {
+    if (!newTaskTitle.trim()) return;
+
+    const newTask: MockTask = {
+      id: Date.now().toString(),
+      title: newTaskTitle.trim(),
+      energy: "medium",
+      status: "todo",
+      projectId: "1",
+    };
+
+    setTasks((prev) => [newTask, ...prev]);
+    setNewTaskTitle("");
+    setIsAdding(false);
   };
 
   const activeTasks = tasks.filter((t) => t.status !== "done");
@@ -71,13 +89,57 @@ export default function StreamPage() {
               <h2 className="text-lg font-semibold text-text-primary">
                 Today's Focus
               </h2>
-              <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm" onClick={() => setIsAdding(true)}>
                 <Plus className="w-4 h-4" />
                 Add task
               </Button>
             </div>
 
             <div className="space-y-3">
+              {/* Add task input */}
+              <AnimatePresence>
+                {isAdding && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="overflow-hidden"
+                  >
+                    <div className="bg-bg-elevated rounded-[var(--radius-lg)] p-4 border border-accent/50">
+                      <input
+                        type="text"
+                        placeholder="What needs to be done?"
+                        value={newTaskTitle}
+                        onChange={(e) => setNewTaskTitle(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") handleAddTask();
+                          if (e.key === "Escape") setIsAdding(false);
+                        }}
+                        autoFocus
+                        className="w-full bg-transparent text-text-primary placeholder:text-text-tertiary outline-none text-base"
+                      />
+                      <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
+                        <span className="text-xs text-text-tertiary">
+                          Press Enter to add, Esc to cancel
+                        </span>
+                        <div className="flex gap-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setIsAdding(false)}
+                          >
+                            <X className="w-4 h-4" />
+                          </Button>
+                          <Button size="sm" onClick={handleAddTask}>
+                            Add
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+
               <AnimatePresence mode="popLayout">
                 {activeTasks.map((task) => (
                   <TaskCard
@@ -92,7 +154,7 @@ export default function StreamPage() {
                 ))}
               </AnimatePresence>
 
-              {activeTasks.length === 0 && (
+              {activeTasks.length === 0 && !isAdding && (
                 <motion.div
                   className="text-center py-12"
                   initial={{ opacity: 0 }}
