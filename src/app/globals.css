@@ -1,0 +1,272 @@
+@import "tailwindcss";
+
+/*
+ * Flow — Design Tokens
+ * Mood-based color system that shifts with time of day
+ */
+
+:root {
+  /* Base tokens */
+  --radius: 1rem;
+  --radius-sm: 0.5rem;
+  --radius-lg: 1.5rem;
+  --radius-full: 9999px;
+
+  /* Animation tokens */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  --duration-fast: 150ms;
+  --duration-normal: 250ms;
+  --duration-slow: 400ms;
+  --duration-slower: 600ms;
+
+  /* Spacing scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+  --space-20: 5rem;
+  --space-24: 6rem;
+}
+
+/* Dawn — Morning energy (6am-11am) */
+[data-mood="dawn"] {
+  --bg-primary: #fefcfb;
+  --bg-secondary: #fff8f5;
+  --bg-tertiary: #fff1eb;
+  --bg-elevated: #ffffff;
+
+  --text-primary: #1a1614;
+  --text-secondary: #6b5d54;
+  --text-tertiary: #9c8b7f;
+  --text-inverse: #fefcfb;
+
+  --accent: #ff8f66;
+  --accent-soft: #fff1eb;
+  --accent-hover: #ff7847;
+
+  --border: #f0e8e4;
+  --border-focus: #ff8f66;
+
+  --glow: rgba(255, 143, 102, 0.2);
+  --shadow: rgba(26, 22, 20, 0.06);
+
+  --gradient-bg: linear-gradient(135deg, #fff8f5 0%, #fefcfb 50%, #fff5f0 100%);
+  --gradient-accent: linear-gradient(135deg, #ff8f66 0%, #ffb899 100%);
+}
+
+/* Flow — Deep focus (11am-5pm) */
+[data-mood="flow"] {
+  --bg-primary: #0d0b14;
+  --bg-secondary: #13101f;
+  --bg-tertiary: #1a1628;
+  --bg-elevated: #1f1a30;
+
+  --text-primary: #f5f3ff;
+  --text-secondary: #a8a0c4;
+  --text-tertiary: #6b6488;
+  --text-inverse: #0d0b14;
+
+  --accent: #a78bfa;
+  --accent-soft: #2d2550;
+  --accent-hover: #c4b5fd;
+
+  --border: #2d2550;
+  --border-focus: #a78bfa;
+
+  --glow: rgba(167, 139, 250, 0.25);
+  --shadow: rgba(0, 0, 0, 0.3);
+
+  --gradient-bg: linear-gradient(135deg, #13101f 0%, #0d0b14 50%, #170f24 100%);
+  --gradient-accent: linear-gradient(135deg, #a78bfa 0%, #818cf8 100%);
+}
+
+/* Golden — Afternoon calm (5pm-8pm) */
+[data-mood="golden"] {
+  --bg-primary: #fdfcfa;
+  --bg-secondary: #faf7f2;
+  --bg-tertiary: #f5f0e6;
+  --bg-elevated: #ffffff;
+
+  --text-primary: #1f1c17;
+  --text-secondary: #6b634f;
+  --text-tertiary: #9c937d;
+  --text-inverse: #fdfcfa;
+
+  --accent: #d4a058;
+  --accent-soft: #faf3e6;
+  --accent-hover: #c48b3c;
+
+  --border: #ebe5d8;
+  --border-focus: #d4a058;
+
+  --glow: rgba(212, 160, 88, 0.2);
+  --shadow: rgba(31, 28, 23, 0.06);
+
+  --gradient-bg: linear-gradient(135deg, #faf7f2 0%, #fdfcfa 50%, #fdf9f3 100%);
+  --gradient-accent: linear-gradient(135deg, #d4a058 0%, #e6b872 100%);
+}
+
+/* Midnight — Late night grinding (8pm-6am) */
+[data-mood="midnight"] {
+  --bg-primary: #09090b;
+  --bg-secondary: #0f0f12;
+  --bg-tertiary: #16161a;
+  --bg-elevated: #1c1c21;
+
+  --text-primary: #fafafa;
+  --text-secondary: #a1a1aa;
+  --text-tertiary: #71717a;
+  --text-inverse: #09090b;
+
+  --accent: #3b82f6;
+  --accent-soft: #1e293b;
+  --accent-hover: #60a5fa;
+
+  --border: #27272a;
+  --border-focus: #3b82f6;
+
+  --glow: rgba(59, 130, 246, 0.25);
+  --shadow: rgba(0, 0, 0, 0.4);
+
+  --gradient-bg: linear-gradient(135deg, #0f0f12 0%, #09090b 50%, #0c0a10 100%);
+  --gradient-accent: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+}
+
+/* Map CSS variables to Tailwind */
+@theme inline {
+  --color-bg-primary: var(--bg-primary);
+  --color-bg-secondary: var(--bg-secondary);
+  --color-bg-tertiary: var(--bg-tertiary);
+  --color-bg-elevated: var(--bg-elevated);
+
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-tertiary: var(--text-tertiary);
+  --color-text-inverse: var(--text-inverse);
+
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-hover: var(--accent-hover);
+
+  --color-border: var(--border);
+  --color-border-focus: var(--border-focus);
+
+  --color-glow: var(--glow);
+  --color-shadow: var(--shadow);
+
+  --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+}
+
+/* Base styles */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background: var(--gradient-bg);
+  color: var(--text-primary);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  min-height: 100vh;
+  transition: background var(--duration-slower) var(--ease-out-expo),
+              color var(--duration-slow) var(--ease-out-expo);
+}
+
+/* Selection styling */
+::selection {
+  background: var(--accent);
+  color: var(--text-inverse);
+}
+
+/* Focus visible styling */
+:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-tertiary);
+}
+
+/* Utility classes for animations */
+.animate-in {
+  animation: animate-in var(--duration-normal) var(--ease-out-expo);
+}
+
+.animate-out {
+  animation: animate-out var(--duration-fast) var(--ease-out-expo);
+}
+
+@keyframes animate-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes animate-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}
+
+/* Glow effect utility */
+.glow {
+  box-shadow: 0 0 20px var(--glow), 0 0 40px var(--glow);
+}
+
+.glow-sm {
+  box-shadow: 0 0 10px var(--glow);
+}
+
+/* Card elevation */
+.elevation-1 {
+  box-shadow: 0 1px 3px var(--shadow), 0 1px 2px var(--shadow);
+}
+
+.elevation-2 {
+  box-shadow: 0 4px 6px var(--shadow), 0 2px 4px var(--shadow);
+}
+
+.elevation-3 {
+  box-shadow: 0 10px 20px var(--shadow), 0 6px 6px var(--shadow);
+}
